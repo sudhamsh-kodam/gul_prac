@@ -30,12 +30,19 @@ var sources = {
         "app/js/lib/angular-ui-router.js"],
     srcJSfiles :["app/**/*.js","!app/js/lib/angular.js","!app/js/lib/angular-ui-router.js","!app/js/app.js"],
     configFiles : ["app/js/app.js"],
-    srchtmlfile: [ "app/**/*.html", "!app/index.html"]
+    srchtmlfile: [ "app/**/*.html", "!app/index.html"],
+    srcCssFiles : ["app/css/*.css"]
 };
 
 gulp.task("clean", function (cb) {
     return del([ "build" ], cb);
 });
+
+gulp.task('srcCss-build',function () {
+    return gulp.src(sources.srcCssFiles)
+        .pipe(gulp.dest("build/css"))
+});
+
 
 gulp.task('lib.js-build',function () {
     return gulp.src(sources.libJSfiles)
@@ -46,20 +53,20 @@ gulp.task('lib.js-build',function () {
 
 gulp.task('src.js-build',function () {
     return gulp.src(sources.srcJSfiles)
-        .pipe(plumber()).pipe(uglify()).pipe(concat('all.min.js'))
+        .pipe(concat('all.min.js'))
         .pipe(gulp.dest("build/js/"))
 });
 
 gulp.task('config.js-build',function () {
     return gulp.src(sources.configFiles)
-        .pipe(plumber()).pipe(uglify())
+        .pipe(plumber())
         .pipe(gulp.dest("build/config/js/"))
 });
 
 gulp.task('src.html-build',function () {
     return gulp.src(sources.srchtmlfile)
         .pipe(plumber())
-        .pipe(gulp.dest("build/views"))
+        .pipe(gulp.dest("build/"))
 });
 
 gulp.task('index.html',function () {
@@ -78,9 +85,12 @@ gulp.task('index.html-build',function () {
                 tpl:'<script src="%s"></script>'
             },
             'srcjs': {
-                src : ["config/js?ver="+ver, "build/js?ver="+ver],
+                src : ["config/js/app.js?ver="+ver,"js/all.min.js?ver="+ver],
                 tpl:'<script src="%s"></script>'
-            }
+            },
+
+            'srcCss': ['css/bootstrap.css','css/styles.css']
+
         }))
         .pipe(
             gulp.dest("build/"))
@@ -98,7 +108,7 @@ gulp.task('sass', function () {
 gulp.task('watch',['browserSync','sass'], function () {
     gulp.watch('app/scss/**/*.scss', ['sass']);
     gulp.watch('app/**/*.html', browserSync.reload);
-    gulp.watch('app/js/**/*.js',browserSync.reload);
+    gulp.watch('app/**/*.js',browserSync.reload);
 });
 
 gulp.task('browserSync',function () {
@@ -108,9 +118,9 @@ gulp.task('browserSync',function () {
         }
     })
 });
-gulp.task("run",  ["lib.js-build","src.js-build","config.js-build","src.html-build","index.html-build","webserver" ], function () {
+gulp.task("run",  ["lib.js-build","src.js-build","config.js-build","src.html-build","index.html-build","srcCss-build","webserver"], function () {
 });
 
-gulp.task("build", ["lib.js-build","src.js-build","config.js-build","src.html-build","index.html-build"], function () {
+gulp.task("build", ["clean","lib.js-build","src.js-build","config.js-build","src.html-build","index.html-build","srcCss-build"], function () {
 });
 

@@ -1,17 +1,23 @@
 'use strict';
 
-var app = angular.module('gulpPractice',[]);
+var app = angular.module('gulpPractice',['ui.router']);
 
-app.config(routerConfig, function ($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $urlRouterProvider,$locationProvider) {
     $stateProvider
-        .state('home',{
-            url : '/',
-            templateUrl : 'app/views/login.html',
+        .state('main',{
+            url : '/main',
+            templateUrl : 'views/main/main.html',
             controller: 'mainCtrl'
+        })
+        .state('login',{
+            url : '/login',
+            templateUrl : 'views/login/login.html',
+            controller: 'logCtrl'
         })
         .state('404page',{
             url : '/404page',
-            templateUrl : 'app/views/404page.html'
-    })
-        .$urlRouterProvider.otherwise('/404page');
+            templateUrl : 'views/404page.html'
+        });
+    $urlRouterProvider.otherwise('/main');
+    //$locationProvider.html5Mode(true);
 } );

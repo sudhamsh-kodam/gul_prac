@@ -1,11 +1,3 @@
-"use strict";
-
-
-app.controller('logCtrl',function ($scope) {
-    $scope.test = 'test .....';
-    $scope.user = "sudhamsh";
-});
-
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -8132,7 +8124,3 @@ angular.module('ui.bootstrap.typeahead')
     };
   }]);
 !angular.$$csp() && angular.element(document).find('head').prepend('<style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>');
-
-app.controller('mainCtrl',function ($scope) {
-    $scope.test = 'test .....'
-});
