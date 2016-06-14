@@ -1,7 +1,7 @@
 "use strict";
 
 
-app.controller('logCtrl',function ($scope) {
+app.controller('logCtrl',['$scope','$http',function ($scope,$http) {
     $scope.test = 'test .....';
     $scope.user = "sudhamsh";
-});
+}]);
